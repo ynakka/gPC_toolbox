@@ -1,7 +1,7 @@
 # gPC_toolbox
 ```
-A generalized Polynomial Chaos Toolbox for projecting Chance-Constrained Stochastic Optimal Control Problem
-to a Deterministic Optimal Control Problem
+A generalized Polynomial Chaos Toolbox for projecting 
+Chance-Constrained Stochastic Optimal Control Problem --> Convex Constrained Deterministic Optimal Control Problem
 1) sde to ode dynamics 
 2) expectation cost to deterministic cost
 3) linear chance constraints to second-order cone  

@@ -9,7 +9,7 @@ from scipy.linalg import sqrtm
 from itertools import combinations
 from cloudpickle import dump, load
 
-from gPC_toolbox_v0.fast_project_sde_2_ode import make_deterministic_sym 
+from gPC_toolbox.fast_project_sde_2_ode import make_deterministic_sym 
 
 def main():
     ## -----------------------------------------------------------------
@@ -33,7 +33,7 @@ def main():
 
     
     # f =  Matrix([[x[1]],[-9.8*sin(x[0])]])
-    f =  Matrix([[x[1]],[-9.8*sin(x[0]) -x[1]]])
+    f =  Matrix([[x[1]],[-sin(x[0]) -0.8*x[1]]])
     
     g = Matrix([[np.sqrt(sigma[0])*theta[0]],[np.sqrt(sigma[0])*theta[1]]])
 
@@ -41,25 +41,25 @@ def main():
     # f = Matrix([[x[1]]]).col_join(Matrix([[sx]]))
 
     n_uncert = 4
-    polynomial_degree = 2
+    polynomial_degree = 1
     # print(f+g)
 
-    dyn_det, dyn_det_file, input_dyn = make_deterministic_sym(f,g,x,u,theta,n_uncert,polynomial_degree,init_uncertain=False)
+    dyn_det, dyn_det_file, input_dyn = make_deterministic_sym(f,g,x,u,theta,n_uncert,polynomial_degree,init_uncertain=True)
 
-    print('dynamics:',dyn_det)
+    # print('dynamics:',dyn_det)
     print('Saving File.')
 
-    #name = 'gpc_pendulum'#+str(polynomial_degree) 
-    #with open(name, 'wb') as fdyn: 
-    #    dump((dyn_det), fdyn)
+    name = 'gpc_pendulum'#+str(polynomial_degree) 
+    with open(name, 'wb') as fdyn: 
+        dump((dyn_det), fdyn)
 
-    name = 'lambdified_pendulum_dynamics'
+    name = 'lambdified_pendulum_dynamics'+str(polynomial_degree)
     with open(name, 'wb') as fdyn_file: 
         dump((dyn_det_file), fdyn_file)
 
-    #name = 'lambdified_pendulum_dyn_input'#+str(polynomial_degree)
-    #with open(name, 'wb') as fdyn_file: 
-    #    dump((input_dyn), fdyn_file)
+    name = 'lambdified_pendulum_dyn_input'#+str(polynomial_degree)
+    with open(name, 'wb') as fdyn_file: 
+        dump((input_dyn), fdyn_file)
 
     # linearized propagation 
 
